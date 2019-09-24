@@ -1,0 +1,22 @@
+#Include "decorate/casings"
+
+#include "decorate/ammo"
+
+#include "decorate/player"
+
+#include "decorate/pickups"
+
+#include "decorate/spawnreplacers"
+
+Actor DummyPlayer 12012
+{
+Radius 20
+Height 46
++SOLID
+States
+{
+Spawn:
+	STAR A -1
+	stop
+}
+}
