@@ -1,0 +1,114 @@
+
+//How did you even get here?
+
+class NAKUWEAPON : Doomweapon replaces DoomWeapon
+{
+	Default
+	{
+        Weapon.BobRangeX 0.4;
+        Weapon.BobRangeY 0.4;
+        Weapon.BobSpeed 1.2;
+        Weapon.BobStyle "Alpha";		
+		Tag "NakuWeapon";
+		inventory.pickupsound "weapon/pickup";		
+		Weapon.UpSound "Weapon/Raise";	
+		
+		}
+	
+}	
+
+class SwingCheck : inventory
+{
+	Default
+	{
+	Inventory.Maxamount 1;
+	}
+}
+
+Class PlasmaSpawner : Actor replaces Plasmarifle
+{
+	Default
+	{
+   Speed 20;
+   PROJECTILE;
+   +NOCLIP;
+   +dontsplash;
+   +notimefreeze;
+   -ACTIVATEIMPACT;
+   }
+   States
+   {
+   Spawn:
+      TNT1 A 1;
+      TNT1 A 1 {
+	  
+	  if (GetCvar("plasma_toggle") == 1) {
+	  A_SpawnProjectile("Type89",10,4,random(-85,-95),2,random(30,60));
+	  }
+	  else {
+	  A_SpawnProjectile("Type96",10,4,random(-85,-95),2,random(30,60));	  
+	  }
+	  
+	 }
+      Stop;
+   }
+}
+
+class SmallChunkyAmmo : Actor replaces Cell
+{
+	Default
+	{
+   Speed 20;
+   PROJECTILE;
+   +NOCLIP;
+   +dontsplash;
+   +notimefreeze;
+   -ACTIVATEIMPACT;
+   }
+   States
+   {
+   Spawn:
+      TNT1 A 1;
+      TNT1 A 1 {
+	  
+	  if (GetCvar("plasma_toggle") == 1) {
+	  A_SpawnProjectile("Ammo556",10,4,random(-85,-95),2,random(30,60));
+	  }
+	  else {
+	  A_SpawnProjectile("Ammo77",10,4,random(-85,-95),2,random(30,60));	  
+	  }
+	  
+	 }
+      Stop;
+   }
+}
+
+
+class BigChunkyAmmo : Actor replaces CellPack
+{
+	Default
+	{
+   Speed 20;
+   PROJECTILE;
+   +NOCLIP;
+   +dontsplash;
+   +notimefreeze;
+   -ACTIVATEIMPACT;
+   }
+   States
+   {
+   Spawn:
+      TNT1 A 1;
+      TNT1 A 1 {
+	  
+	  if (GetCvar("plasma_toggle") == 1) {
+	  A_SpawnProjectile("556BigBox",10,4,random(-85,-95),2,random(30,60));
+	  }
+	  else {
+	  A_SpawnProjectile("77BigBox",10,4,random(-85,-95),2,random(30,60));	  
+	  }
+	  
+	 }
+      Stop;
+   }
+}

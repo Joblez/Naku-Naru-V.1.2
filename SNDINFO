@@ -44,6 +44,11 @@ type96/magins TYPEINS
 type96/boltback	TYPEBAC
 type96/boltrel	TYPEFOR
 
+type89/fire	SCARFIR
+type89/loop	SCRLOOP
+type89/end SCAREND
+
+
 1887/fire	SHOTTP
 1887/pumpback	PUMPBCK
 1887/pumpfor	PUMPFOS

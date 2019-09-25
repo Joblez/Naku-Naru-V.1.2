@@ -1,0 +1,284 @@
+/*
+	{				Miroku Police Special Revolver   	}
+
+Formerly a popular police revolver, The Miroku is a Solid, Accurate .38 Special Revolver similar 
+to iconic Colt .38 Revolvers like the Model 10. Not a particularly iconic weapon,
+but one which will serve its duty nonetheless. A solid workhorse.
+
+*/
+
+class Miroku : NAKUWEAPON replaces Pistol
+{
+	Default
+	{
+		Weapon.Kickback 100;
+		Weapon.SlotNumber 2;
+		Inventory.PickupMessage "[2]Miroku Police Special - .38 Special.";
+		Tag "Miroku.";
+		Weapon.AmmoUse 0;
+		Weapon.AmmoGive 20;
+		Weapon.AmmoType "Ammo44";
+		Weapon.AmmoType2 "NambuCylinder";
+		Obituary "%o was smoked by %k.";
+		+WEAPON.WIMPY_WEAPON;
+		Weapon.Slotnumber 2;
+		+WEAPON.NOALERT;
+		+WEAPON.NOAUTOAIM;	
+		+WEAPON.NOAUTOFIRE;	
+		}
+		
+		States
+		{
+		
+		deselect:
+			RELI A 1; 
+			TNT1 A 0 A_Lower;
+			WAIT;
+			
+	ALTFIRE:
+	TNT1 A 0 A_Overlay(-1,"Melee", 0);
+	RELF B 1 ;
+	RELF E 1;
+	RELF F 1;
+	RELF G 1;
+	RELF H 1;	
+	TNT1 A 0 Offset(1,30);
+	GOTO READY;
+				
+	MELEE:
+	TNT1 A 0 A_JumpifInventory("swingcheck",1,"Melee2");
+	MELE E 1  A_PlaySound("staff/swing", CHAN_AUTO);
+	MELE F 1; 
+	MELE G 1 A_CustomPunch(15, FALSE, 0,"Knife_Puff");
+	MELE H 1; 
+	TNT1 A 0 Offset(1,30);
+	TNT1 A 0 A_GiveInventory("swingcheck",1);
+	TNT1 A 0;
+	goto ALTIDLE;
+	
+	MELEE2:
+	MELE A 1  A_PlaySound("staff/swing", CHAN_AUTO);
+	MELE B 1; 
+	MELE C 1 A_CustomPunch(15, FALSE, 0,"Knife_Puff");
+	MELE D 1;
+	TNT1 A 0 Offset(1,30);
+	TNT1 A 0;
+	TNT1 A 0 A_TakeInventory("swingcheck",1);
+	goto ALTIDLE;
+	
+	ALTIDLE:
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS) & (BT_ATTACK), "ALTIFFIRE");
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS) & (BT_RELOAD), "ALTIFRELOAD");		
+		TNT1 A 1 A_WeaponReady(WRF_NOPRIMARY);
+		TNT1 A 0 Offset(1,30);
+		loop;
+
+	ALTIFRELOAD:	
+
+	TNT1 A 1;
+	TNT1 B 1;
+	TNT1 C 1;
+	TNT1 D 1;
+	TNT1 E 1;
+	TNT1 F 1;
+	TNT1 G 2;
+	TNT1 H 2;
+	TNT1 I 1;
+	TNT1 J 1;	
+	TNT1 K 1 ;	
+	TNT1 L 1;
+	TNT1 M 1;
+	TNT1 N 2;
+	TNT1 O 1;
+	TNT1 P 1;
+	TNT1 Q 1;
+	TNT1 R 1;
+	TNT1 S 2;
+	TNT1 T 1;
+	TNT1 U 1;
+	TNT1 V 1;
+	TNT1 W 1;
+	TNT1 X 1;
+	TNT1 Y 1;
+	TNT1 Z 2;
+	TNT1 A 2;
+	TNT1 B 1;
+	TNT1 C 1;
+	TNT1 D 1;
+	TNT1 E 1;
+	TNT1 F 1;
+	TNT1 G 1;
+	TNT1 H 1;
+	TNT1 A 0 Offset(1,30);	
+		
+	ALTIFFIRE:	
+	TNT1 A 1;
+	TNT1 B 1;
+	TNT1 H 1;
+	TNT1 I 2;
+	TNT1 I 2 ;
+	TNT1 J 1 ;
+	TNT1 J 1;
+	TNT1 K 1;
+	TNT1 K 1;
+	TNT1 A 1;
+	TNT1 A 0 Offset(1,30);
+	GOTO ALTIDLE;
+	
+	ALTIFKICK:	
+	TNT1 D 1 Offset(160, 164);
+	TNT1 E 1 Offset(73, 143);
+	TNT1 F 1 Offset(97, 87);
+	TNT1 F 2 Offset(93, 83);
+	TNT1 F 1 Offset(97, 87);
+	TNT1 E 1 Offset(73, 143);
+	TNT1 D 1 Offset(160, 164);
+	TNT1 A 0 Offset(1,30);
+	GOTO ALTIDLE;	 
+	
+	FIRE:
+		TNT1 A 0 A_JumpIfInventory("NambuCylinder",1,1);
+        Goto NoAmmo;
+	TNT1 A 0 A_AlertMonsters();	
+	TNT1 A 0 A_TakeInventory("NambuCylinder",1);
+	TNT1 A 0 A_Playsound("revolver/fire",1);
+	TNT1 A 0 BRIGHT A_Firebullets(3,3,1,25,"Bulletpuff");
+		TNT1 A 0 { 
+		A_ChangeVelocity (Cos(Pitch) * -1, 0, Sin(Pitch) * 3, CVF_Relative);
+		A_Gunflash();
+		A_Quake(2,4,0,30);
+		}
+
+		TNT1 A 0 A_OverlayOffset(1,random(-4,1),random(-4,1),WOF_ADD|WOF_KEEPY);				
+		TNT1 A 0  A_Recoil(0.1);
+		TNT1 A 0  A_SetPitch(pitch - random(1, 3));
+		TNT1 A 0  A_SetAngle(angle + random(-1, 3));			
+        TNT1 A 0 {
+            if (GetCvar("smoke_toggle") == 1)
+            {
+			
+				A_FireProjectile("SmokeSpawner",0,0,0);
+				A_FireProjectile("SmokeSpawner",0,0,0);	
+			
+			}
+		
+		}	
+		RELF A 1 Bright;
+		RELF B 1 ;
+		RELF C 1 ;
+		TNT1 A 0 A_playsound("revolver/cock",2); 		
+		RELF D 2;
+		RELF E 2;
+		RELF F 2 A_WeaponReady(WRF_ALLOWRELOAD); 
+		RELF G 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		RELF H 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		RELF I 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		RELF J 1 A_WeaponReady(WRF_ALLOWRELOAD);
+		TNT1 A 0 A_WeaponReady(WRF_ALLOWRELOAD);	
+		TNT1 A 0 Offset(1,30);	
+		goto ready;
+	
+	READY:
+	RELI A 4 A_Weaponready(WRF_ALLOWRELOAD);
+	RELI A 4 A_Weaponready(WRF_ALLOWRELOAD);
+	RELI B 4 A_Weaponready(WRF_ALLOWRELOAD);
+	RELI C 4 A_Weaponready(WRF_ALLOWRELOAD);
+	RELI E 4 A_Weaponready(WRF_ALLOWRELOAD);
+	RELI F 4 A_Weaponready(WRF_ALLOWRELOAD);
+	RELI E 4 A_Weaponready(WRF_ALLOWRELOAD);
+	RELI D 4 A_Weaponready(WRF_ALLOWRELOAD);
+	RELI C 4 A_Weaponready(WRF_ALLOWRELOAD);
+	RELI B 4 A_Weaponready(WRF_ALLOWRELOAD);
+	RELI A 4 A_Weaponready(WRF_ALLOWRELOAD);
+	RELI A 4 A_Weaponready(WRF_ALLOWRELOAD);
+	loop;
+	
+	NOAMMO:
+		RELI A 2 Offset(1,30) A_playsound("weapons/empty",1);
+		RELI A 2 Offset(1,33);
+		goto ready;
+	
+	RELOAD:
+	TNT1 A 0 A_JumpIfInventory("NambuCylinder", 6, "ReloadFinish");
+	TNT1 A 0 A_JumpIfInventory("Ammo44", 1, "ProperReload");	
+	RELR A 1;
+	RELR B 1;
+	RELR C 1;
+	RELR D 1;
+	RELR E 2;
+	RELR F 1;	
+	RELR G 1;
+	TNT1 A 0 {
+            if (GetCvar("casing_toggle") == 1)
+            {
+			
+			A_FireProjectile("Alt357CaseSpawn",0,0,random(-10,-4),random(-2,-6));
+			A_FireProjectile("Alt357CaseSpawn",0,0,random(-10,-4),random(-2,-6));
+			A_FireProjectile("Alt357CaseSpawn",0,0,random(-10,-4),random(-2,-6));
+			A_FireProjectile("Alt357CaseSpawn",0,0,random(-10,-4),random(-2,-6));
+			A_FireProjectile("Alt357CaseSpawn",0,0,random(-10,-4),random(-2,-6));
+			A_FireProjectile("Alt357CaseSpawn",0,0,random(-10,-4),random(-2,-6));
+			
+			}
+		
+		}			
+	RELR H 1 A_PlaySound("revolver/open", CHAN_AUTO);
+	RELR I 2;
+	RELR J 2;	
+	RELR K 2;	
+	RELR L 2;
+	RELR M 1;
+	RELR N 2;
+	RELR O 2;
+	RELR P 1;
+	RELR Q 2 A_PlaySound("revolver/shellin", CHAN_AUTO);
+	RELR R 2;
+	RELR S 1;
+	RELR T 1;
+	RELR U 1 A_PlaySound("revolver/close", CHAN_AUTO);
+	RELR V 1;
+	RELR W 2;
+	RELR X 2;
+	RELR Y 1;
+	RELR Z 1;
+	RERR A 1;
+	RERR B 1;
+	RERR C 1;
+	RERR D 1;	
+	TNT1 A 0 Offset(1,30);	
+	ReloadRepeat:
+		TNT1 A 0 A_JumpIfInventory("NambuCylinder", 6, "ReloadFinish");
+		TNT1 A 0 A_JumpIfInventory("Ammo44", 1, 1);
+		Goto ReloadFinish;
+		TNT1 A 0 A_GiveInventory("NambuCylinder", 1);
+		TNT1 A 0 A_Takeinventory("Ammo44",1)	;
+		Goto ReloadRepeat;
+		ReloadFinish:
+		Goto Ready;		
+	
+	select:
+	TNT1 A 0 Setplayerproperty(0,1,2);
+	TNT1 A 0 A_playsound("weapon/draw",1);
+	TNT1 A 4; 
+	REVS A 1;
+	REVS B 1;
+	REVS C 1;
+	REVS D 1;
+	REVS E 1;
+	REVS F 1 A_playsound("revolver/cock",1);
+	REVS G 1;
+	TNT1 A 0 Offset(1,30);		
+	goto ready;	
+	}
+}	
+
+Class NambuCylinder : Ammo
+{
+	Default
+	{
+	Inventory.Amount 6;
+	Inventory.MaxAmount 6;
+	Ammo.BackpackAmount 0;
+	Ammo.BackpackMaxAmount 6;
+}
+}

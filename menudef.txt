@@ -6,8 +6,16 @@ DEFAULTLISTMENU
 }
 
 
+OptionValue "LMGOPTION"
+{
+0, "Type 99 Nambu"
+1, "Type 89 Howa"
+}
+
+
 OptionMenu "NakuEffects"
 {
+
 title "Naku-Naru Options"
 
 StaticText " "
@@ -21,6 +29,13 @@ Option "Muzzle Smoke", "smoke_toggle","OnOff"
 Option "Particles from Projectiles", "weapon_particle_toggle","OnOff"
 
 Option "Fade-Ins/Fade-Outs", "fade_toggle", "OffOn"
+
+
+StaticText " "
+
+StaticText "Gameplay Options"
+
+Option "Type 99 or Type 89?","plasma_toggle","LMGOPTION"
 
 }
 

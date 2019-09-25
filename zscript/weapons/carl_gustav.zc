@@ -1,0 +1,372 @@
+/*
+	{			Carl-Gustav M2 Recoilless Rifle			}
+
+	pop, BOOM!
+		
+	
+	Made initially for an anti-tank purpose, the Carl-Gustav is now yours
+	to wield, if for shock value over anything. Of course, due to it's sheer
+	size, you're not able to melee while using it, but it's little issue. Great for 
+	crowd control. Don't know whether or not you're gonna be able to shoot any 
+	actual tanks with it, however.
+		
+*/
+
+class Carl_Gustav : NAKUWEAPON replaces RocketLauncher
+{
+	Default
+	{
+		Weapon.AmmoType "Ammo84mm";	
+		Weapon.Kickback 50;
+		Weapon.AmmoUse 1;
+		Weapon.AmmoGive 10;		
+		Inventory.PickupMessage "[5]SMAF Gustav M2 - 84mm Anti-Tank Weapon";
+		Weapon.Slotnumber 5;	
+		Tag "Gustav.";
+		attacksound "m2/fire";
+		+WEAPON.NOAUTOAIM;
+		Scale 0.8;
+		}
+		States
+		{
+
+	Spawn:
+		CARP A -1;
+		Stop;	
+		
+			deselect:
+			TNT1 A 0 A_Lower;
+			loop;
+			
+			select:
+			TNT1 A 0 Setplayerproperty(0,1,2);			
+			TNT1 A 4;
+			SMAS A 1 ;
+			SMAS B 1 ;
+			SMAS C 1 ;
+			SMAS D 1 ;
+			SMAS E 1 ;
+			SMAS F 1 ;
+			SMAS G 1 ;
+			SMAS H 1 ;
+			goto ready;
+
+	
+	ready:
+	SMAI A 4 A_Weaponready(WRF_ALLOWZOOM);
+	SMAI B 4 A_Weaponready(WRF_ALLOWZOOM);
+	SMAI C 4 A_Weaponready(WRF_ALLOWZOOM);
+	SMAI D 4 A_Weaponready(WRF_ALLOWZOOM);
+	SMAI E 4 A_Weaponready(WRF_ALLOWZOOM);
+	SMAI F 4 A_Weaponready(WRF_ALLOWZOOM);	
+	SMAI E 4 A_Weaponready(WRF_ALLOWZOOM);	
+	SMAI D 4 A_Weaponready(WRF_ALLOWZOOM);
+	SMAI C 4 A_Weaponready(WRF_ALLOWZOOM);
+	SMAI B 4 A_Weaponready(WRF_ALLOWZOOM);  
+	Loop;
+								
+		fire:
+		M144 A 0 A_Jumpifinventory("RocketScope", 1, "Zoomfire");	 
+		SMAF A 1 BRIGHT A_playsound("gustav/fire",1);
+		SMAF B 1 Bright A_FireProjectile("Carl_Rocket");
+		TNT1 A 0 A_OverlayOffset(1,random(-1,1),random(-1,1),WOF_ADD);			
+		TNT1 A 0 A_Recoil(0.6);
+		TNT1 A 0 A_SetPitch(pitch - random(1, 6));
+		TNT1 A 0 A_SetAngle(angle + random(-1, 6));		
+        TNT1 A 0 {
+            if (GetCvar("smoke_toggle") == 1)
+            {
+			
+				A_FireProjectile("SmokeSpawner",0,0,0);
+				A_FireProjectile("SmokeSpawner",0,0,0);	
+				A_FireProjectile("SmokeSpawner",0,0,0);
+				A_FireProjectile("SmokeSpawner",0,0,0);				
+			}
+		
+		}		
+		SMAF C 1 Bright;
+		SMAF D 1 ;
+		SMAF E 1;
+		SMAF F 1;
+		SMAF G 2;
+		SMAF H 2;
+		SMAF I 1;
+		SMAF J 1;
+		SMAF K 1;
+		SMAF L 1;
+		SMAF M 1;
+		SMAF N 1;
+		SMAF O 2 A_playsound("gustav/load1",1);
+		SMAF P 8;
+		SMAF Q 6;
+		SMAF R 8 A_playsound("gustav/load2",1);	
+		SMAF S 2;
+		SMAF T 1 ;
+		SMAF U 1 ;
+		SMAF V 1;
+		SMAF W 1 ;
+		SMAF X 1;
+		SMAF Y 1;
+		SMAF Z 2 ;
+		SMFF A 2;
+		SMFF B 1;	
+		goto ready;
+		
+	Zoom:
+		M144 X 0 A_Jumpifinventory("RocketScope",1,"ScopeOut");
+		M144 X 0 A_Giveinventory("RocketScope", 1);
+		M144 V 0 A_Playsound("weapon/draw");	
+		SMAF C 1 Offset(63, 99) A_Zoomfactor (2);
+		SNPS E 1 Offset(1,35);
+		SNPS D 1 Offset(1,34);
+		SNPS C 1 Offset(1,33);
+		SNPS B 1 Offset(1,32);
+		TNT1 A 0 Offset(1,33);
+		goto ZoomReady;
+		
+	ZoomReady:	
+	TNT1 A 0 A_Jumpifinventory("ScopeOut", 1,"ZoomDeselect");
+	M144 A 0 A_Jumpifinventory("ZoomDeselect",1,"ZoomFire");	
+	SNPS A 4 A_Weaponready(WRF_ALLOWZOOM | WRF_NOSECONDARY);
+	TNT1 A 0 A_Jumpifinventory("ScopeOut", 1,"ZoomDeselect");
+	M144 A 0 A_Jumpifinventory("ZoomDeselect",1,"ZoomFire");	
+	SNPS B 4 A_Weaponready(WRF_ALLOWZOOM | WRF_NOSECONDARY);
+	TNT1 A 0 A_Jumpifinventory("ScopeOut", 1,"ZoomDeselect");
+	M144 A 0 A_Jumpifinventory("ZoomDeselect",1,"ZoomFire");	
+	SNPS C 4 A_Weaponready(WRF_ALLOWZOOM | WRF_NOSECONDARY);
+	TNT1 A 0 A_Jumpifinventory("ScopeOut", 1,"ZoomDeselect");
+	M144 A 0 A_Jumpifinventory("ZoomDeselect",1,"ZoomFire");	
+	SNPS D 4 A_Weaponready(WRF_ALLOWZOOM | WRF_NOSECONDARY);
+	TNT1 A 0 A_Jumpifinventory("ScopeOut", 1,"ZoomDeselect");
+	M144 A 0 A_Jumpifinventory("ZoomDeselect",1,"ZoomFire");	
+	SNPS E 8 A_Weaponready(WRF_ALLOWZOOM | WRF_NOSECONDARY);
+	TNT1 A 0 A_Jumpifinventory("ScopeOut", 1,"ZoomDeselect");
+	M144 A 0 A_Jumpifinventory("ZoomDeselect",1,"ZoomFire");	
+	SNPS D 4 A_Weaponready(WRF_ALLOWZOOM | WRF_NOSECONDARY);
+	TNT1 A 0 A_Jumpifinventory("ScopeOut", 1,"ZoomDeselect");
+	M144 A 0 A_Jumpifinventory("ZoomDeselect",1,"ZoomFire");	
+	SNPS C 4 A_Weaponready(WRF_ALLOWZOOM | WRF_NOSECONDARY);
+	TNT1 A 0 A_Jumpifinventory("ScopeOut", 1,"ZoomDeselect");
+	M144 A 0 A_Jumpifinventory("ZoomDeselect",1,"ZoomFire");	
+	SNPS B 4 A_Weaponready(WRF_ALLOWZOOM | WRF_NOSECONDARY);	
+	Loop;
+		ZoomDeselect:
+		M144 X 0 A_Takeinventory("RocketScope", 1);
+		M144 X 0 A_Zoomfactor(1.0);
+		SNPS B 1 Offset(1,32);
+		SNPS C 1 Offset(1,33);	
+		SNPS D 1 Offset(1,34);		
+		SNPS E 1 Offset(1,35);		
+		TNT1 A 0 Offset(1,33);				
+		TNT1 A 0 A_Lower;
+		Goto ZoomDeselect+3;
+
+		ScopeOut:
+		M144 X 0 A_Takeinventory("RocketScope", 1);
+		M144 X 0 A_Zoomfactor(1.0);
+		SNPS B 1 Offset(1,32);
+		SNPS C 1 Offset(1,33);	
+		SNPS D 1 Offset(1,34);		
+		SNPS E 1 Offset(1,35);	
+		
+		TNT1 A 0 Offset(1,33);	
+		TNT1 A 0 A_Lower;
+		Goto ZoomDeselect+3;
+
+	ZoomFire:
+		SNPS A 1 Offset(1,32) A_playsound("gustav/fire",1);
+		SNPS A 1 Offset(1,32) Bright A_FireProjectile("Carl_Rocket");
+		TNT1 A 0 A_OverlayOffset(1,random(-1,1),random(-1,1),WOF_ADD);			
+		TNT1 A 0 A_Recoil(0.6);
+		TNT1 A 0 A_SetPitch(pitch - random(1, 6));
+		TNT1 A 0 A_SetAngle(angle + random(-1, 6));			
+		SNPS B 1 Offset(1,32)Bright;
+		SNPS D 1 Offset(1,32)Bright;
+		SNPS C 1 Offset(1,32);
+		SNPS B 1 Offset(1,32);
+		SNPS A 1 Offset(1,32);
+		SNPS A 2 Offset(1,33);
+		SNPS A 2 Offset(1,34);
+		M144 X 0 A_Zoomfactor(1.0);
+		SMAF I 1;
+		SMAF J 1;
+		SMAF K 1;
+		SMAF L 1;
+		SMAF M 1;
+		SMAF N 1;
+		SMAF O 1 A_playsound("gustav/load1",1);
+		SMAF P 6;
+		SMAF Q 6;
+		SMAF R 6 A_playsound("gustav/load2",1);	
+		SMAF S 2;
+		SMAF T 1 ;
+		SMAF U 1 ;
+		SMAF V 1;
+		SMAF W 1 ;
+		SMAF X 1;
+		SMAF Y 1;
+		SMAF Z 2 ;
+		SMFF A 2;
+		SMFF B 1;	
+		SMAF C 0  A_Zoomfactor (2);
+		SNPS E 1 Offset(1,35);
+		SNPS D 1 Offset(1,34);
+		SNPS C 1 Offset(1,33);
+		SNPS B 1 Offset(1,32);
+		TNT1 A 0 Offset(1,33);		
+		TNT1 A 0 Offset(1,30);
+	goto Zoomready;
+			
+		}
+	
+}	
+
+
+Class ZoomDeselect : Inventory 
+{
+Default
+	{
+	Inventory.MaxAmount 1; 
+	}
+}
+
+Class ScopeOut : Inventory 
+{
+Default
+	{
+	Inventory.MaxAmount 1; 
+	}
+}
+
+Class RocketScope : Inventory 
+{
+Default
+	{
+	Inventory.MaxAmount 1; 
+	}
+}
+
+Class KickCheck : Inventory
+{
+	Default
+	{
+	Inventory.Amount 1;
+	Inventory.MaxAmount 1;
+	}
+}	
+
+class CARL_Rocket : Actor
+{
+	Default
+	{
+  Radius 12;
+  Height 8;
+  Speed 85;
+  Damage 100;
+  Projectile;
+  +RANDOMIZE;
+  +DEHEXPLOSION;
+  +ROCKETTRAIL;
+  Decal "Scorch";
+  SeeSound "weapons/rocklf";
+  DeathSound "weapons/rocklx";
+  Obituary "$OB_MPROCKET"; // "%o rode %k's rocket."	
+	}
+	States
+	{
+	Spawn:
+	MISL A 4 BRIGHT; //A_SpawnItem("Carl_Rocket_Trail",-20,0);
+	loop;
+	
+	Death:	
+	TNT1 A 0 A_SetScale(2,2);
+	TNT1 A 0 A_SetTranslucent(0.2);
+	TNT1 A 0 {
+           if (GetCvar("weapon_particle_toggle") == 1)
+            {		
+				A_SpawnProjectile ("Carl_Rocket_Trail2", 0, 0, random (0, 360), 2, random (0, 360));				
+				A_SpawnProjectile ("SmokeSpawner2", 0, 0, random (0, 360), 2, random (0, 360));	
+				A_SpawnProjectile ("Carl_Rocket_Trail2", 0, 0, random (0, 360), 2, random (0, 360));				
+				A_SpawnProjectile ("SmokeSpawner2", 0, 0, random (0, 360), 2, random (0, 360));	
+				A_SpawnProjectile ("Carl_Rocket_Trail2", 0, 0, random (0, 360), 2, random (0, 360));				
+				A_SpawnProjectile ("SmokeSpawner2", 0, 0, random (0, 360), 2, random (0, 360));	
+				A_SpawnProjectile ("Carl_Rocket_Trail2", 0, 0, random (0, 360), 2, random (0, 360));				
+				A_SpawnProjectile ("SmokeSpawner2", 0, 0, random (0, 360), 2, random (0, 360));					
+				A_SpawnProjectile ("Carl_Rocket_Trail2", 0, 0, random (0, 360), 2, random (0, 360));				
+				A_SpawnProjectile ("SmokeSpawner2", 0, 0, random (0, 360), 2, random (0, 360));	
+				A_SpawnProjectile ("Carl_Rocket_Trail2", 0, 0, random (0, 360), 2, random (0, 360));				
+				A_SpawnProjectile ("SmokeSpawner2", 0, 0, random (0, 360), 2, random (0, 360));	
+				A_SpawnProjectile ("Carl_Rocket_Trail2", 0, 0, random (0, 360), 2, random (0, 360));				
+				A_SpawnProjectile ("SmokeSpawner2", 0, 0, random (0, 360), 2, random (0, 360));	
+				A_SpawnProjectile ("Carl_Rocket_Trail2", 0, 0, random (0, 360), 2, random (0, 360));				
+				A_SpawnProjectile ("SmokeSpawner2", 0, 0, random (0, 360), 2, random (0, 360));					
+				}	
+			}	
+	EXPL A 1 BRIGHT A_Explode(128,256);
+	EXPL B 2 BRIGHT Radius_Quake(100,8,0,15,0);
+	EXPL C 2 BRIGHT Radius_Quake(100,8,0,15,0);
+	EXPL D 2 BRIGHT Radius_Quake(100,8,0,15,0);
+	EXPL E 2 BRIGHT Radius_Quake(100,8,0,15,0);
+	EXPL F 2 BRIGHT Radius_Quake(100,8,0,15,0);
+	EXPL G 2 BRIGHT Radius_Quake(100,8,0,15,0);
+	EXPL H 2 BRIGHT Radius_Quake(100,8,0,15,0);
+	EXPL I 2 BRIGHT Radius_Quake(100,8,0,15,0);
+	EXPL J 2 BRIGHT Radius_Quake(100,8,0,15,0);
+	EXPL K 2 BRIGHT Radius_Quake(100,8,0,15,0);
+	EXPL L 2 BRIGHT Radius_Quake(100,8,0,15,0);
+	EXPL M 1 BRIGHT Radius_Quake(100,8,0,15,0);
+	TNT1 A 4 BRIGHT Radius_Quake(100,8,0,15,0);
+	Stop;
+	
+	}
+}
+
+
+
+class CARL_Rocket_Trail : Actor
+{
+	Default
+	{
+  Height 1;
+  Radius 1;
+  Mass 0;
+  +Missile;
+  +NoBlockMap;
+  +NoGravity;
+  +DontSplash;
+  +FORCEXYBILLBOARD;
+  +CLIENTSIDEONLY;
+  +THRUACTORS;
+  +GHOST;
+  +THRUGHOST;
+  RenderStyle "Add";
+  Scale 0.1;
+  }
+  States
+  {
+  Spawn:
+    SPRK AAAAAAA 1 BRIGHT;
+	SPRK AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 Bright A_FadeOut(0.02);
+    Stop;
+  }
+}
+
+
+class CARL_Rocket_Trail2 : CARL_Rocket_Trail
+{
+Default
+	{
+	Radius 1;
+	Height 1;
+	Alpha 1.0;
+	RenderStyle "Add";
+	Scale 0.1;
+	Speed 6;
+	Gravity 0.2;
+	+BOUNCEONCEILINGS;
+	+BOUNCEONWALLS;
+	-SKYEXPLODE;
+	-NOGRAVITY;
+	}
+}
+
